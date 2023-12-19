@@ -1,5 +1,8 @@
 .mail {
   width: 100%;
+}
+
+.mailContainer{
   margin-top: 50px;
   background-color: #ff6600;
   color: white;
@@ -28,3 +31,4 @@
     border-radius: 5px;
     cursor: pointer;
   }
+ 
