@@ -1,8 +1,50 @@
+// import getData from "../../hooks/Fetch";
+import {useEffect, useState} from "react"
+import axios from "axios"
+
+
 import "./featured.css";
 
 export const Featured = () => {
+  const [data,setData]=useState([]);
+    const [loading,setLoading]=useState(false);
+    const [error,setError]=useState(false);
+
+    const url = "/api/hotels/countCity?cities=Manali,Indore,Kashmir";
+    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NWRmNmNkOWI4YjczZDZhODdhMDg2NSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTcwMDc0NzY3NSwiZXhwIjoxNzAxMzUyNDc1fQ.ja8nnIZv4N1KnsrJcflWG3qLyqAiA2u1TY6E97MSlEA";
+    console.log(token);
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get(url, {
+                    headers: {
+            "Content-Type": "application/json",
+            "Authorization": `${token}`,
+          },
+          withCredentials:true,
+        });
+        setData(res.data);
+        console.log(res.data);
+
+      } catch (error) {
+        setError(error);
+      }
+      setLoading(false);
+    };
+
+    useEffect(() => {
+      fetchData();
+    }, [url]);
+
+    const refetch = async () => {
+      fetchData();
+    };
+
   return (
     <div className="mainContainer">
+    {
+
+    }
       <div className="featured">
         <div className="featuredItem">
           <img
@@ -73,6 +115,7 @@ export const Featured = () => {
           </div>
         </div>
       </div>
+      
     </div>
   );
 };
