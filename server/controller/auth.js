@@ -32,10 +32,11 @@ export const signin=async(req,res)=>{
             expiresIn:60*60*24*7,
         })
         res.cookie("token",token,{
-            httpOnly:true
+            httpOnly:true,
+            path: '/',
         })
         const {password,isAdmin,...other}=user._doc;
-        res.status(201).json({...other});
+        res.status(201).json({...other,token});
     } catch (error) {
         console.log(error);
         res.status(500).send(error);

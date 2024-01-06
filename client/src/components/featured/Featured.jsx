@@ -1,82 +1,64 @@
 // import getData from "../../hooks/Fetch";
 import {useEffect, useState} from "react"
 import axios from "axios"
-
-
 import "./featured.css";
 
 export const Featured = () => {
   const [data,setData]=useState([]);
     const [loading,setLoading]=useState(false);
-    const [error,setError]=useState(false);
 
-    const url = "/api/hotels/countCity?cities=Manali,Indore,Kashmir";
-    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NWRmNmNkOWI4YjczZDZhODdhMDg2NSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTcwMDc0NzY3NSwiZXhwIjoxNzAxMzUyNDc1fQ.ja8nnIZv4N1KnsrJcflWG3qLyqAiA2u1TY6E97MSlEA";
-    console.log(token);
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await axios.get(url, {
-                    headers: {
-            "Content-Type": "application/json",
-            "Authorization": `${token}`,
-          },
-          withCredentials:true,
-        });
-        setData(res.data);
-        console.log(res.data);
-
-      } catch (error) {
-        setError(error);
+    useEffect(()=>{
+      const fetchData=async()=>{
+        setLoading(true);
+        try {
+          const res=await axios.get("http://localhost:5000/api/hotels/countCity?cities=Manali,Darjeeling,Indore")
+          setData(res.data);
+        } catch (error) {
+          console.log(error);
+        }
+        setLoading(false);
       }
-      setLoading(false);
-    };
-
-    useEffect(() => {
       fetchData();
-    }, [url]);
+    },[]);
 
-    const refetch = async () => {
-      fetchData();
-    };
 
   return (
     <div className="mainContainer">
-    {
-
-    }
+    {loading?("Loading...."):
+    (
+      <>
       <div className="featured">
         <div className="featuredItem">
           <img
-            src="https://cf.bstatic.com/xdata/images/city/600x600/684765.jpg?k=3f7d20034c13ac7686520ac1ccf1621337a1e59860abfd9cbd96f8d66b4fc138&o="
+            src="https://static.toiimg.com/photo/77760011.cms"
             alt=""
             className="featuredImg"
           />
           <div className="featuredTitles">
-            <h1>New Delhi</h1>
-            <h2>2926 Properties</h2>
+            <h1>Manali</h1>
+            <h2> {data[0]} Properties</h2>
           </div>
         </div>
         <div className="featuredItem">
           <img
-            src="https://cf.bstatic.com/xdata/images/city/600x600/684501.jpg?k=225f7713b3f47f0c2c580c34c35582ba70331757bcc8dc32e7f17072c80805ff&o="
+            src="https://www.bihartrip.com/pub/media/catalog/product/cache/cab15b78dac35e1077797ee439f6374a/d/a/darjeeling_tour_package_from_patna.jpg"
             alt=""
             className="featuredImg"
           />
           <div className="featuredTitles">
-            <h1>Agra</h1>
-            <h2>407 Properties</h2>
+            <h1>Darjeeling</h1>
+            <h2>{data[1]}  Properties</h2>
           </div>
         </div>
         <div className="featuredItem">
           <img
-            src="https://cf.bstatic.com/xdata/images/city/600x600/684657.jpg?k=66dc5035b43e9bb86b756e381e4fec2558064af4a63a8af17836725a854c03ee&o="
+            src="https://static.toiimg.com/thumb/47067385/Indore_ed.jpg?width=1200&height=900"
             alt=""
             className="featuredImg"
           />
           <div className="featuredTitles">
-            <h1>Jaipur</h1>
-            <h2>1526 Properties</h2>
+            <h1>Indore</h1>
+            <h2>{data[2]}  Properties</h2>
           </div>
         </div>
       </div>
@@ -115,7 +97,9 @@ export const Featured = () => {
           </div>
         </div>
       </div>
-      
+     </>
+     )
+      }
     </div>
   );
 };

@@ -1,8 +1,33 @@
+import { useEffect, useState } from "react";
 import "./propertyList.css";
+import axios from "axios";
+
+
 
 export const PropertyList = () => {
+const [data,setData]=useState([])
+const [loading,setLoading]=useState(false)
+
+const getProperty=async()=>{
+  setLoading(true);
+  try {
+    const res=await axios.get("http://localhost:5000/api/hotels/countType")
+    setData(res.data)
+  } catch (error) {
+    console.log(error);
+  }
+  setLoading(false)
+}
+
+useEffect(()=>{
+  getProperty();
+},[])
+
   return (
     <div className="pList">
+    {loading?("Loading..."):
+    (
+      <>
       <div className="pListItem">
         <img
           src="https://r-xx.bstatic.com/xdata/images/xphoto/263x210/57584488.jpeg?k=d8d4706fc72ee789d870eb6b05c0e546fd4ad85d72a3af3e30fb80ca72f0ba57&o="
@@ -11,7 +36,7 @@ export const PropertyList = () => {
         />
         <div className="pListTitles">
           <h1>Hotels</h1>
-          <h2>990152 hotels</h2>
+          <h2>{`${data[0]?.count || 0} hotels`} </h2>
         </div>
       </div>
       <div className="pListItem">
@@ -22,7 +47,7 @@ export const PropertyList = () => {
         />
         <div className="pListTitles">
           <h1>Apartments</h1>
-          <h2>1240930 apartments</h2>
+          <h2>{`${data[1]?.count || 0} apartments`}</h2>
         </div>
       </div>
       <div className="pListItem">
@@ -33,7 +58,7 @@ export const PropertyList = () => {
         />
         <div className="pListTitles">
           <h1>Resorts</h1>
-          <h2>19581 resorts</h2>
+          <h2>{`${data[2]?.count || 0} resorts`}</h2>
         </div>
       </div>
       <div className="pListItem">
@@ -44,7 +69,7 @@ export const PropertyList = () => {
         />
         <div className="pListTitles">
           <h1>Villas</h1>
-          <h2>651797 villas</h2>
+          <h2>{`${data[3]?.count || 0} hotels`}</h2>
         </div>
       </div>
       <div className="pListItem">
@@ -55,20 +80,12 @@ export const PropertyList = () => {
         />
         <div className="pListTitles">
           <h1>Cabins</h1>
-          <h2>46406 cabins</h2>
+          <h2>{`${data[4]?.count || 0} cabins`}</h2>
         </div>
       </div>
-      <div className="pListItem">
-        <img
-          src="https://r-xx.bstatic.com/xdata/images/xphoto/263x210/45450074.jpeg?k=7039b03a94f3b99262c4b3054b0edcbbb91e9dade85b6efc880d45288a06c126&o="
-          alt=""
-          className="pListImg"
-        />
-        <div className="pListTitles">
-          <h1>Cottages</h1>
-          <h2>709130 cottages</h2>
-        </div>
-      </div>
+      </>
+    )
+    }
     </div>
   );
 };

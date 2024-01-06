@@ -3,7 +3,7 @@ import { delUser, getAllUser, getUser, updateUser, verifyAdmin, verifyUser } fro
 import { verifyToken } from "../verifyToken.js";
 const router=express.Router();
 
-router.get('/authentication',verifyToken,(req,res)=>{
+router.get('/authentication',verifyToken,(req,res,next)=>{
     res.send("Authenticated");
 })
 

@@ -3,15 +3,15 @@ const router=express.Router();
 import {verifyToken} from "../verifyToken.js"
 import { createRoom, delRoom, getAllRoom, getRoom, updateRoom } from "../controller/rooms.js";
 
-router.post('/:hotelid',verifyToken,createRoom);
+router.post('/:hotelid',createRoom);
 
-router.put('/:id',verifyToken,updateRoom);
+router.put('/:id',updateRoom);
 
-router.delete('/:id/:hotelid',verifyToken,delRoom);
+router.delete('/:id/:hotelid',delRoom);
 
-router.get('/:id',verifyToken,getRoom);
+router.get('/:id',getRoom);
 
-router.put('/',verifyToken,getAllRoom);
+router.put('/',getAllRoom);
 
 
 export default router;
